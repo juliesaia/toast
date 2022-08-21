@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<style>
+		body {
+			font-size: 42px;
+			font-family: "SuisseIntl-Bold";
+			text-align: left;
+			margin-right: 15px;
+			vertical-align: center;
+
+		}
+
+		#sponsor{
+			font-weight: lighter; 
+			font-size: 36px;
+		}
+
+		#tag{
+			font-weight: bolder;
+		}
+
+		@font-face {
+    		font-family: SuisseIntl-Bold;
+			font-weight: bold;
+ 			src: url("SuisseIntl-Bold.otf") format("opentype");
+		}
+
+		
+	</style>
+</head>
+
+<body>
+
+	<div style="font-size:smaller; line-height: 1em;">Local Time</div>
+	<div id="clock" style="line-height: 0.8em;">
+		
+	</div>
+
+</body>
+
+<script>
+
+	
+function startTime() {
+    const today = new Date();
+    let h = today.getHours();
+    let m = today.getMinutes();
+    let s = today.getSeconds();
+	let suffix = "am"
+
+	if (h >= 12 && h < 24){
+		suffix = "pm"
+	}
+	if (h > 12){
+		h -= 12
+	}
+	// h = checkTime(h);
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('clock').innerHTML =  h  + ":" + m + suffix + " PDT";
+    setTimeout(startTime, 1000);
+  }
+  
+  function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+  }
+
+startTime();
+
+</script>
+</html>
