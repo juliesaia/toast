@@ -3,6 +3,8 @@ const vuePlugin = require('@vitejs/plugin-vue')
 
 const { defineConfig } = require('vite');
 
+var WindiCSS = require('vite-plugin-windicss').default
+
 /**
  * https://vitejs.dev/config
  */
@@ -17,7 +19,12 @@ const config = defineConfig({
         outDir: Path.join(__dirname, '..', 'build', 'renderer'),
         emptyOutDir: true,
     },
-    plugins: [vuePlugin()],
+    plugins: [vuePlugin({
+        reactivityTransform: true
+      }), WindiCSS({
+        config: Path.join(__dirname, '..', 'windi.config.ts'),
+        root: Path.dirname(__dirname),
+      })],
     resolve: {
         alias: {
             '@': Path.join(__dirname, '..', 'src', 'renderer')

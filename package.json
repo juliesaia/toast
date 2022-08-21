@@ -1,5 +1,5 @@
 {
-  "name": "electron-vue-template",
+  "name": "sunnyshore-stream-app",
   "version": "0.1.0",
   "description": "A minimal Electron + Vue application",
   "main": "build/main/main.js",
@@ -23,9 +23,12 @@
     "electron": "^17.1.0",
     "electron-builder": "^22.14.13",
     "typescript": "^4.6.2",
-    "vite": "^2.8.6"
+    "vite": "^2.8.6",
+    "vite-plugin-windicss": "^1.8.4",
+    "windicss": "^3.5.3"
   },
   "dependencies": {
-    "vue": "^3.2.31"
+    "vue": "^3.2.31",
+    "ws": "^8.6.0"
   }
 }

@@ -43,7 +43,7 @@ async function startElectron() {
     electronProcess = ChildProcess.spawn(Electron, args);
 
     electronProcess.stdout.on('data', data => {
-        console.log(Chalk.blueBright(`[elecron] `) + Chalk.white(data.toString()));
+        console.log(Chalk.blueBright(`[electron] `) + Chalk.white(data.toString()));
     });
 
     electronProcess.stderr.on('data', data => {
