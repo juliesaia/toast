@@ -11517,43 +11517,51 @@ ReconnectingWebSocket = require("reconnecting-websocket");
 
 const rws = new ReconnectingWebSocket("ws://localhost:8081");
 
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 rws.addEventListener("message", (event) => {
-  console.log(event.data);
-  json_data = JSON.parse(event.data);
-  if (json_data.data) {
-    updateData(json_data.data);
-  }
-
-  if (json_data.timer) {
-    if (json_data.action == "play") {
-      if (started == false) {
-        startTimer(json_data.timer * 60, document.querySelector("#timer"));
-      }
-      if (started == true) {
-        paused = false;
-      }
+    console.log(event.data);
+    json_data = JSON.parse(event.data);
+    if (json_data.data) {
+        updateData(json_data.data);
     }
 
-    if (json_data.action == "pause") {
-      if (started == true) {
-        paused = true;
-      }
+    if (json_data.timer) {
+        if (json_data.action == "play") {
+            if (started == false) {
+                startTimer(
+                    json_data.timer * 60,
+                    document.querySelector("#timer")
+                );
+            }
+            if (started == true) {
+                paused = false;
+            }
+        }
+
+        if (json_data.action == "pause") {
+            if (started == true) {
+                paused = true;
+            }
+        }
+
+        if (json_data.action == "replay") {
+            if (started == true) {
+                timer = json_data.timer * 60;
+
+                minutes = parseInt(timer / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                // minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                document.querySelector("#timer").textContent =
+                    minutes + ":" + seconds;
+            }
+        }
     }
-
-    if (json_data.action == "replay") {
-      if (started == true) {
-        timer = json_data.timer * 60;
-
-        minutes = parseInt(timer / 60, 10);
-        seconds = parseInt(timer % 60, 10);
-
-        // minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-
-        document.querySelector("#timer").textContent = minutes + ":" + seconds;
-      }
-    }
-  }
 });
 
 var current = "name";
@@ -11563,180 +11571,171 @@ var timerset = false;
 var gt = makeGlobalTimer(15000);
 
 function makeGlobalTimer(freq) {
-  freq = freq || 1000;
+    freq = freq || 1000;
 
-  // array of callback functions
-  var callbacks = [];
+    // array of callback functions
+    var callbacks = [];
 
-  // register the global timer
-  var id = setInterval(function () {
-    var idx;
-    for (idx in callbacks) {
-      callbacks[idx]();
-    }
-  }, freq);
+    // register the global timer
+    var id = setInterval(function () {
+        var idx;
+        for (idx in callbacks) {
+            callbacks[idx]();
+        }
+    }, freq);
 
-  // return a Global Timer object
-  return {
-    id: function () {
-      return id;
-    },
-    registerCallback: function (cb) {
-      callbacks.push(cb);
-    },
-    cancel: function () {
-      if (id !== null) {
-        clearInterval(id);
-        id = null;
-      }
-    },
-  };
+    // return a Global Timer object
+    return {
+        id: function () {
+            return id;
+        },
+        registerCallback: function (cb) {
+            callbacks.push(cb);
+        },
+        cancel: function () {
+            if (id !== null) {
+                clearInterval(id);
+                id = null;
+            }
+        },
+    };
 }
 
 function fade() {
-  if (current == "name") {
-    setInterval(() => {
-      $("#twitter").fadeIn();
-      $("#sponsor").fadeOut();
-      $("#tag").fadeOut();
-      current = "twitter";
-      fade();
-    }, 1000);
-  } else {
-    setInterval(() => {
-      $("#twitter").fadeOut();
-      $("#sponsor").fadeIn();
-      $("#tag").fadeIn();
-      current = "name";
-      fade();
-    }, 1000);
-  }
+    if (current == "name") {
+        setInterval(() => {
+            $("#twitter").fadeIn();
+            $("#sponsor").fadeOut();
+            $("#tag").fadeOut();
+            current = "twitter";
+            fade();
+        }, 1000);
+    } else {
+        setInterval(() => {
+            $("#twitter").fadeOut();
+            $("#sponsor").fadeIn();
+            $("#tag").fadeIn();
+            current = "name";
+            fade();
+        }, 1000);
+    }
+}
+
+async function process(el, data) {
+    if (el.innerText != data) {
+        el.style.opacity = 0;
+        await sleep(1000);
+        el.style.opacity = 1;
+        el.innerText = data;
+    }
 }
 
 function updateData(data) {
-  // console.log(data);
-  var player1 = document.querySelector(".player1");
-  var player2 = document.querySelector(".player2");
-  var comm1 = document.querySelector(".comm1");
-  var comm2 = document.querySelector(".comm2");
-  var upnext1 = document.querySelector(".upnext1");
-  var upnext2 = document.querySelector(".upnext2");
-  var score1 = document.querySelector(".score1");
-  var score2 = document.querySelector(".score2");
-  var round = document.querySelector(".round");
-  var pronouns1 = document.querySelector(".pronouns1");
-  var pronouns2 = document.querySelector(".pronouns2");
+    // console.log(data);
+    var player1 = document.querySelector(".player1");
+    var player2 = document.querySelector(".player2");
+    var comm1 = document.querySelector(".comm1");
+    var comm2 = document.querySelector(".comm2");
+    var upnext1 = document.querySelector(".upnext1");
+    var upnext2 = document.querySelector(".upnext2");
+    var score1 = document.querySelector(".score1");
+    var score2 = document.querySelector(".score2");
+    var round = document.querySelector(".round");
+    var pronouns1 = document.querySelector(".pronouns1");
+    var pronouns2 = document.querySelector(".pronouns2");
 
-  if (player1) {
-    player1.children[0].innerText = data["player"][0]["sponsor"];
-    player1.children[1].innerText = data["player"][0]["tag"];
-  }
-
-  if (player2) {
-    player2.children[0].innerText = data["player"][1]["sponsor"];
-    player2.children[1].innerText = data["player"][1]["tag"];
-  }
-
-  if (comm1) {
-    comm1.children[0].children[0].innerText = data["comm"][0]["sponsor"];
-    comm1.children[0].children[1].innerText = data["comm"][0]["tag"];
-    comm1.children[1].innerText = "@" + data["comm"][0]["twitter"];
-    if (timerset == false) {
-      gt.registerCallback(function () {
-        if (current == "name") {
-          $("#twitter").fadeIn();
-          // $("#sponsor").fadeOut()
-          // $("#tag").fadeOut()
-          $("#name").fadeOut();
-          current = "twitter";
-        } else {
-          $("#twitter").fadeOut();
-          // $("#sponsor").fadeIn()
-          // $("#tag").fadeIn()
-          $("#name").fadeIn();
-          current = "name";
-        }
-      });
-      timerset = true;
+    if (player1) {
+        process(player1.children[0], data["player"][0]["sponsor"]);
+        process(player1.children[1], data["player"][0]["tag"]);
     }
-  }
-  if (comm2) {
-    comm2.children[0].children[0].innerText = data["comm"][1]["sponsor"];
-    comm2.children[0].children[1].innerText = data["comm"][1]["tag"];
 
-    comm2.children[1].innerText = "@" + data["comm"][1]["twitter"];
-
-    if (timerset == false) {
-      gt.registerCallback(function () {
-        if (current == "name") {
-          $("#twitter").fadeIn();
-          // $("#sponsor").fadeOut()
-          // $("#tag").fadeOut()
-          $("#name").fadeOut();
-          current = "twitter";
-        } else {
-          $("#twitter").fadeOut();
-          // $("#sponsor").fadeIn()
-          // $("#tag").fadeIn()
-          $("#name").fadeIn();
-          current = "name";
-        }
-      });
-      timerset = true;
+    if (player2) {
+        process(player2.children[0], data["player"][1]["sponsor"]);
+        process(player2.children[1], data["player"][1]["tag"]);
     }
-    // fade()
-  }
-  if (upnext1) {
-    upnext1.children[0].innerText = data["upnext"][0]["sponsor"];
-    upnext1.children[1].innerText = data["upnext"][0]["tag"];
-  }
-  if (upnext2) {
-    upnext2.children[0].innerText = data["upnext"][1]["sponsor"];
-    upnext2.children[1].innerText = data["upnext"][1]["tag"];
-  }
-  if (score1) {
-    score1.children[0].innerText = data["player"][0]["score"].filter(
-      (value) => value === true
-    ).length;
-  }
-  if (score2) {
-    score2.children[0].innerText = data["player"][1]["score"].filter(
-      (value) => value === true
-    ).length;
-  }
-  if (round) {
-    round.children[0].innerText = data["round"];
-  }
-  if (pronouns1) {
-    pronouns1.children[0].innerText = data["player"][0]["pronouns"];
-  }
-  if (pronouns2) {
-    pronouns2.children[0].innerText = data["player"][1]["pronouns"];
-  }
+
+    if (comm1) {
+        process(comm1.children[0].children[0], data["comm"][0]["sponsor"]);
+        process(comm1.children[0].children[1], data["comm"][0]["tag"]);
+        process(comm1.children[1], "@" + data["comm"][0]["twitter"]);
+    }
+    if (comm2) {
+        process(comm2.children[0].children[0], data["comm"][1]["sponsor"]);
+        process(comm2.children[0].children[1], data["comm"][1]["tag"]);
+        process(comm2.children[1], "@" + data["comm"][1]["twitter"]);
+        // fade()
+    }
+    if (upnext1) {
+        process(upnext1.children[0], data["upnext"][0]["sponsor"]);
+        process(upnext1.children[1], data["upnext"][0]["tag"]);
+    }
+    if (upnext2) {
+        process(upnext2.children[0], data["upnext"][1]["sponsor"]);
+        process(upnext2.children[1], data["upnext"][1]["tag"]);
+    }
+    if (score1) {
+        process(
+            score1.children[0],
+            data["player"][0]["score"].filter((value) => value === true).length
+        );
+    }
+    if (score2) {
+        process(
+            score2.children[0],
+            data["player"][1]["score"].filter((value) => value === true).length
+        );
+    }
+    if (round) {
+        process(round.children[0], data["round"]);
+    }
+    if (pronouns1) {
+        process(pronouns1.children[0], data["player"][0]["pronouns"]);
+    }
+    if (pronouns2) {
+        process(pronouns2.children[0], data["player"][1]["pronouns"]);
+    }
+}
+
+if (document.querySelector(".comm1") || document.querySelector(".comm2")) {
+    gt.registerCallback(function () {
+        if (current == "name") {
+            $("#twitter").fadeIn();
+            // $("#sponsor").fadeOut()
+            // $("#tag").fadeOut()
+            $("#name").fadeOut();
+            current = "twitter";
+        } else {
+            $("#twitter").fadeOut();
+            // $("#sponsor").fadeIn()
+            // $("#tag").fadeIn()
+            $("#name").fadeIn();
+            current = "name";
+        }
+    });
 }
 
 var timer;
 
 function startTimer(duration, display) {
-  timer = duration;
-  started = true;
-  var interval = setInterval(function () {
-    if (paused == false) {
-      minutes = parseInt(timer / 60, 10);
-      seconds = parseInt(timer % 60, 10);
+    timer = duration;
+    started = true;
+    var interval = setInterval(function () {
+        if (paused == false) {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
 
-      // minutes = minutes < 10 ? "0" + minutes : minutes;
-      seconds = seconds < 10 ? "0" + seconds : seconds;
+            // minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
 
-      display.textContent = minutes + ":" + seconds;
+            display.textContent = minutes + ":" + seconds;
 
-      if (--timer < 0) {
-        // timer = duration;
-        clearInterval(interval);
-        started = false;
-      }
-    }
-  }, 1000);
+            if (--timer < 0) {
+                // timer = duration;
+                clearInterval(interval);
+                started = false;
+            }
+        }
+    }, 1000);
 }
 
 },{"jquery":1,"reconnecting-websocket":2}]},{},[3]);

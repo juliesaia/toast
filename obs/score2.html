@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <style>
+            body {
+                font-size: 42px;
+                font-family: "Coolvetica";
+                text-align: right;
+                margin-right: 15px;
+                vertical-align: center;
+            }
 
-<head>
-	<style>
-		body {
-			font-size: 42px;
-			font-family: "Coolvetica";
-			text-align: right;
-			margin-right: 15px;
-			vertical-align: center;
+            #sponsor {
+                font-weight: lighter;
+                font-size: 36px;
+            }
 
-		}
+            #tag {
+                font-weight: bolder;
+            }
 
-		#sponsor{
-			font-weight: lighter; 
-			font-size: 36px;
-		}
+            #score {
+                transition: opacity 1s ease;
+            }
+        </style>
+    </head>
 
-		#tag{
-			font-weight: bolder;
-		}
+    <body>
+        <div class="score2">
+            <span id="score">1</span>
+        </div>
+    </body>
 
-		
-	</style>
-</head>
-
-<body>
-
-	<div class="score2">
-		<span id="score">1</span>
-	</div>
-
-</body>
-
-<script src="bundle.js"></script>
+    <script src="bundle.js"></script>
 </html>

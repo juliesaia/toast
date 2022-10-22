@@ -1,58 +1,58 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <style>
+            body {
+                font-size: 42px;
+                font-family: "Coolvetica";
+                text-align: left;
+                margin-right: 15px;
+                vertical-align: center;
+            }
 
-<head>
-	<style>
-		body {
-			font-size: 42px;
-			font-family: "Coolvetica";
-			text-align: left;
-			margin-right: 15px;
-			vertical-align: center;
-		}
+            #sponsor {
+                font-weight: lighter;
+                font-size: 36px;
+                transition: opacity 1s ease;
+            }
 
-		#sponsor{
-			font-weight: lighter; 
-			font-size: 36px;
-		}
+            #tag {
+                font-weight: bolder;
+                transition: opacity 1s ease;
+            }
 
-		#tag{
-			font-weight: bolder;
-		}
+            #name {
+                position: absolute;
+                right: 0;
+                left: 0;
+                margin-left: auto;
+                margin-right: auto;
+                width: fit-content;
+            }
 
-		#name{
-			position: absolute;
-			right: 0;
-			left: 0;
-			margin-left: auto;
-			margin-right: auto;
-			width: fit-content;
-		}
-		
-		#twitter{
-			position: absolute;
-			right: 0;
-			left: 0;
-			margin-left: auto;
-			margin-right: auto;
-			width: fit-content;
-		}
+            #twitter {
+                position: absolute;
+                right: 0;
+                left: 0;
+                margin-left: auto;
+                margin-right: auto;
+                width: fit-content;
+                transition: opacity 1s ease;
+            }
+        </style>
+    </head>
 
-		
-	</style>
-</head>
+    <body>
+        <div class="comm1">
+            <div id="name" style="position: absolute">
+                <span id="sponsor">Daniel Fornaniel</span>
+                <span id="tag">GPik</span>
+            </div>
+            <span id="twitter" style="display: none; position: absolute"
+                >@GPik</span
+            >
+        </div>
+    </body>
 
-<body>
-
-	<div class="comm1">
-		<div id="name" style="position: absolute;">
-			<span id="sponsor">Daniel Fornaniel</span>
-			<span id="tag" >GPik</span>
-		</div>
-		<span id="twitter" style="display: none; position: absolute;">@GPik</span>
-	</div>
-
-</body>
-
-<script src="bundle.js"></script>
+    <script src="bundle.js"></script>
 </html>
