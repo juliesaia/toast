@@ -1,8 +1,9 @@
-![screenshot2](https://user-images.githubusercontent.com/76669473/185814099-1953ad6d-06d6-43cd-9a89-5c1f9de04f2b.png)
+![image](https://user-images.githubusercontent.com/76669473/198209431-9a92774e-302c-48bf-93a3-fa2815821aef.png)
 
 A minimalist Electron app for managing stream overlays for Rivals of Aether, built with this template https://github.com/Deluze/electron-vue-template
 
-## About
+This project is meant for users to style their own overlays, if you want something more "batteries included" then check out https://github.com/Readek/RoA-Stream-Tool
+## Usage
 
 Add the html files in the `obs` folder as sources in OBS, and the Electron app will connect to it with a websocket and automatically update.
 
@@ -23,14 +24,20 @@ npm run dev
 
 ## Build
 
+```bash
 npm run build 
+```
 
-(to build `obs` files):
+(to build obs files):
 
+```bash
 browserify .\script.js bundle.js
+```
 
 # OR
 
+```bash
 npm run build:win # uses windows as build target
 npm run build:mac # uses mac as build target
 npm run build:linux # uses linux as build target
+```
