@@ -1,13 +1,10 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+// do not do everything in one component
+// learn from the error of my ways
 
 import { watch } from "vue";
 
 import { ipcRenderer } from "./electron";
-
-// hmm maybe these keys shouldve been ararys instead oops
-// there we go thats better
 
 var timer = $ref(5);
 
@@ -156,7 +153,7 @@ function checkbox_fix(i, j) {
 </script>
 
 <template>
-    <div class="flex flex-col h-100vh">
+    <div class="flex flex-col h-100vh overflow-y-hidden">
         <div class="grid grid-cols-3">
             <div class="flex">
                 <button
@@ -170,7 +167,7 @@ function checkbox_fix(i, j) {
             <span
                 class="my-8 text-center font-bold text-size-2em text-sunnyshore-pink-dark"
             >
-                SunnyShore Stream App
+                Rivals Stream App
             </span>
         </div>
         <div
@@ -475,7 +472,7 @@ function checkbox_fix(i, j) {
           </div> -->
                     <div v-if="key == 'player'">
                         <label
-                            for="player1score"
+                            for="player2score"
                             class="ml-3 text-sm text-gray-700 block mb-1 font-medium"
                         >
                             Score
@@ -484,8 +481,8 @@ function checkbox_fix(i, j) {
                             @click="checkbox_fix(1, 0)"
                             v-model="data.player[1].score[0]"
                             type="checkbox"
-                            name="player1score"
-                            id="player1score"
+                            name="player2score"
+                            id="player2score"
                             class="w-5 h-5 mx-4"
                             placeholder="Score..."
                         />
@@ -493,8 +490,8 @@ function checkbox_fix(i, j) {
                             @click="checkbox_fix(1, 1)"
                             v-model="data.player[1].score[1]"
                             type="checkbox"
-                            name="player1score"
-                            id="player1score"
+                            name="player2score"
+                            id="player2score"
                             class="mx-4 w-5 h-5"
                             placeholder="Score..."
                         />
@@ -502,15 +499,15 @@ function checkbox_fix(i, j) {
                             @click="checkbox_fix(1, 2)"
                             v-model="data.player[1].score[2]"
                             type="checkbox"
-                            name="player1score"
-                            id="player1score"
+                            name="player2score"
+                            id="player2score"
                             class="mx-4 w-5 h-5"
                             placeholder="Score..."
                         />
                     </div>
                     <div v-if="key == 'comm'" class="mb-6">
                         <label
-                            for="player1tag"
+                            for="player2twitter"
                             class="ml-3 text-sm text-gray-700 block mb-1 font-medium"
                         >
                             Twitter
@@ -518,8 +515,8 @@ function checkbox_fix(i, j) {
                         <input
                             v-model="data[key][1]['twitter']"
                             type="text"
-                            name="player1tag"
-                            id="player1tag"
+                            name="player2twitter"
+                            id="player2twitter"
                             class="m-0 bg-gray-100 border border-gray-200 rounded py-1 px-3 w-full block focus:ring-2 focus:outline-none focus:ring-sunnyshore-pink-light focus:border-sunnyshore-pink-light text-gray-700"
                             placeholder="Twitter..."
                         />
