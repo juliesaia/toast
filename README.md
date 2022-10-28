@@ -1,4 +1,5 @@
 # Toast 🍞
+> Tournament Overlays And Stream Tools
 
 No-hassle OBS tournament stream overlay manager
 
@@ -10,7 +11,6 @@ No-hassle OBS tournament stream overlay manager
 <br/>
 
 This project is meant for users to style their own overlays, if you want something more "batteries included" then check out https://github.com/Readek/RoA-Stream-Tool
-
 
 Built with this Electron template: https://github.com/Deluze/electron-vue-template
 ## Usage
